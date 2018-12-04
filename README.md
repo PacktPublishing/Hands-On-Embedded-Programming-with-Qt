@@ -1,2 +1,1 @@
-# Hands-On-Embedded-Programming-with-QT
-Hands-On Embedded Programming with QT, published by Packt
+# The code for this repository is under development :construction_worker:
