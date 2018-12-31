@@ -1,0 +1,201 @@
+diff -uar Src/qtbase/src/corelib/global/qendian.h qt-5.12.0-Src/qtbase/src/corelib/global/qendian.h
+--- Src/qtbase/src/corelib/global/qendian.h	2018-12-03 06:15:25.000000000 -0500
++++ qt-5.12.0-Src/qtbase/src/corelib/global/qendian.h	2018-12-13 21:47:31.486477777 -0500
+@@ -162,17 +162,17 @@
+     return qFromUnaligned<Float>(&temp);
+ }
+ 
+-template <> inline qfloat16 qbswap<qfloat16>(qfloat16 source)
++inline qfloat16 qbswap(qfloat16 source)
+ {
+     return qbswapFloatHelper(source);
+ }
+ 
+-template <> inline float qbswap<float>(float source)
++inline float qbswap(float source)
+ {
+     return qbswapFloatHelper(source);
+ }
+ 
+-template <> inline double qbswap<double>(double source)
++inline double qbswap(double source)
+ {
+     return qbswapFloatHelper(source);
+ }
+@@ -185,7 +185,7 @@
+ */
+ template <typename T> inline void qbswap(const T src, void *dest)
+ {
+-    qToUnaligned<T>(qbswap<T>(src), dest);
++    qToUnaligned<T>(qbswap(src), dest);
+ }
+ 
+ template <int Size> void *qbswap(const void *source, qsizetype count, void *dest) noexcept;
+@@ -223,15 +223,15 @@
+ #else // Q_LITTLE_ENDIAN
+ 
+ template <typename T> inline Q_DECL_CONSTEXPR T qToBigEndian(T source)
+-{ return qbswap<T>(source); }
++{ return qbswap(source); }
+ template <typename T> inline Q_DECL_CONSTEXPR T qFromBigEndian(T source)
+-{ return qbswap<T>(source); }
++{ return qbswap(source); }
+ template <typename T> inline Q_DECL_CONSTEXPR T qToLittleEndian(T source)
+ { return source; }
+ template <typename T> inline Q_DECL_CONSTEXPR T qFromLittleEndian(T source)
+ { return source; }
+ template <typename T> inline void qToBigEndian(T src, void *dest)
+-{ qbswap<T>(src, dest); }
++{ qbswap(src, dest); }
+ template <typename T> inline void qToLittleEndian(T src, void *dest)
+ { qToUnaligned<T>(src, dest); }
+ 
+diff -uar Src/qtdeclarative/src/quick/items/qquicktableview.cpp qt-5.12.0-Src/qtdeclarative/src/quick/items/qquicktableview.cpp
+--- Src/qtdeclarative/src/quick/items/qquicktableview.cpp	2018-11-19 09:39:17.000000000 -0500
++++ qt-5.12.0-Src/qtdeclarative/src/quick/items/qquicktableview.cpp	2018-12-14 20:13:39.419537356 -0500
+@@ -1647,8 +1647,9 @@
+     QObjectPrivate::connect(model, &QQmlInstanceModel::initItem, this, &QQuickTableViewPrivate::initItemCallback);
+ 
+     if (tableModel) {
+-        QObjectPrivate::connect(tableModel, &QQmlTableInstanceModel::itemPooled, this, &QQuickTableViewPrivate::itemPooledCallback);
+-        QObjectPrivate::connect(tableModel, &QQmlTableInstanceModel::itemReused, this, &QQuickTableViewPrivate::itemReusedCallback);
++		const auto tm = tableModel.data();
++        QObjectPrivate::connect(tm, &QQmlTableInstanceModel::itemPooled, this, &QQuickTableViewPrivate::itemPooledCallback);
++        QObjectPrivate::connect(tm, &QQmlTableInstanceModel::itemReused, this, &QQuickTableViewPrivate::itemReusedCallback);
+     }
+ 
+     if (auto const aim = model->abstractItemModel()) {
+@@ -1678,8 +1679,9 @@
+     QObjectPrivate::disconnect(model, &QQmlInstanceModel::initItem, this, &QQuickTableViewPrivate::initItemCallback);
+ 
+     if (tableModel) {
+-        QObjectPrivate::disconnect(tableModel, &QQmlTableInstanceModel::itemPooled, this, &QQuickTableViewPrivate::itemPooledCallback);
+-        QObjectPrivate::disconnect(tableModel, &QQmlTableInstanceModel::itemReused, this, &QQuickTableViewPrivate::itemReusedCallback);
++		const auto tm = tableModel.data();
++        QObjectPrivate::disconnect(tm, &QQmlTableInstanceModel::itemPooled, this, &QQuickTableViewPrivate::itemPooledCallback);
++        QObjectPrivate::disconnect(tm, &QQmlTableInstanceModel::itemReused, this, &QQuickTableViewPrivate::itemReusedCallback);
+     }
+ 
+     if (auto const aim = model->abstractItemModel()) {
+diff -uar Src/qtlocation/src/location/declarativemaps/qdeclarativegeomap.cpp qt-5.12.0-Src/qtlocation/src/location/declarativemaps/qdeclarativegeomap.cpp
+--- Src/qtlocation/src/location/declarativemaps/qdeclarativegeomap.cpp	2018-11-10 14:59:08.000000000 -0500
++++ qt-5.12.0-Src/qtlocation/src/location/declarativemaps/qdeclarativegeomap.cpp	2018-12-15 09:04:32.001056823 -0500
+@@ -1,6 +1,6 @@
+ /****************************************************************************
+ **
+-** Copyright (C) 2015 The Qt Company Ltd.
++** Copyright (C) 2015, 2018 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
+ **
+ ** This file is part of the QtLocation module of the Qt Toolkit.
+@@ -360,7 +360,7 @@
+     center.setLatitude(qBound(m_minimumViewportLatitude, center.latitude(), m_maximumViewportLatitude));
+     cameraData.setCenter(center);
+ 
+-    connect(m_map, &QGeoMap::cameraDataChanged,
++    connect(m_map.data(), &QGeoMap::cameraDataChanged,
+             this,  &QDeclarativeGeoMap::onCameraDataChanged);
+     m_map->setCameraData(cameraData);
+ 
+@@ -371,7 +371,7 @@
+ 
+     if (visibleAreaHasChanged)
+         emit visibleAreaChanged();
+-    connect(m_map, &QGeoMap::visibleAreaChanged, this, &QDeclarativeGeoMap::visibleAreaChanged);
++    connect(m_map.data(), &QGeoMap::visibleAreaChanged, this, &QDeclarativeGeoMap::visibleAreaChanged);
+ 
+     emit mapReadyChanged(true);
+ 
+@@ -657,11 +657,11 @@
+     QImage copyrightImage;
+     if (!m_initialized && width() > 0 && height() > 0) {
+         QMetaObject::Connection copyrightStringCatcherConnection =
+-                connect(m_map,
++			connect(m_map.data(),
+                         QOverload<const QString &>::of(&QGeoMap::copyrightsChanged),
+                         [&copyrightString](const QString &copy){ copyrightString = copy; });
+         QMetaObject::Connection copyrightImageCatcherConnection =
+-                connect(m_map,
++			connect(m_map.data(),
+                         QOverload<const QImage &>::of(&QGeoMap::copyrightsChanged),
+                         [&copyrightImage](const QImage &copy){ copyrightImage = copy; });
+         m_map->setViewportSize(QSize(width(), height()));
+@@ -682,8 +682,8 @@
+         emit m_map->copyrightsChanged(copyrightImage);
+ 
+ 
+-    connect(m_map, &QGeoMap::sgNodeChanged, this, &QQuickItem::update);
+-    connect(m_map, &QGeoMap::cameraCapabilitiesChanged, this, &QDeclarativeGeoMap::onCameraCapabilitiesChanged);
++    connect(m_map.data(), &QGeoMap::sgNodeChanged, this, &QQuickItem::update);
++    connect(m_map.data(), &QGeoMap::cameraCapabilitiesChanged, this, &QDeclarativeGeoMap::onCameraCapabilitiesChanged);
+ 
+     // This prefetches a buffer around the map
+     m_map->prefetchData();
+diff -uar Src/qtlocation/src/plugins/position/geoclue2/qgeopositioninfosource_geoclue2.cpp qt-5.12.0-Src/qtlocation/src/plugins/position/geoclue2/qgeopositioninfosource_geoclue2.cpp
+--- Src/qtlocation/src/plugins/position/geoclue2/qgeopositioninfosource_geoclue2.cpp	2018-11-10 14:59:08.000000000 -0500
++++ qt-5.12.0-Src/qtlocation/src/plugins/position/geoclue2/qgeopositioninfosource_geoclue2.cpp	2018-12-15 09:14:16.871584442 -0500
+@@ -264,7 +264,7 @@
+                 setError(AccessError);
+                 delete m_client;
+             } else {
+-                connect(m_client, &OrgFreedesktopGeoClue2ClientInterface::LocationUpdated,
++                connect(m_client.data(), &OrgFreedesktopGeoClue2ClientInterface::LocationUpdated,
+                         this, &QGeoPositionInfoSourceGeoclue2::handleNewLocation);
+ 
+                 if (configureClient())
+diff -uar Src/qtquickcontrols2/src/quicktemplates2/qquickcontrol.cpp qt-5.12.0-Src/qtquickcontrols2/src/quicktemplates2/qquickcontrol.cpp
+--- Src/qtquickcontrols2/src/quicktemplates2/qquickcontrol.cpp	2018-11-15 11:08:45.000000000 -0500
++++ qt-5.12.0-Src/qtquickcontrols2/src/quicktemplates2/qquickcontrol.cpp	2018-12-14 23:03:34.758348480 -0500
+@@ -1,6 +1,6 @@
+ /****************************************************************************
+ **
+-** Copyright (C) 2017 The Qt Company Ltd.
++** Copyright (C) 2017, 2018 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
+ **
+ ** This file is part of the Qt Quick Templates 2 module of the Qt Toolkit.
+@@ -413,7 +413,7 @@
+     delete oldContentItem;
+ 
+     if (item) {
+-        connect(contentItem, &QQuickItem::baselineOffsetChanged, this, &QQuickControlPrivate::updateBaselineOffset);
++        connect(contentItem.data(), &QQuickItem::baselineOffsetChanged, this, &QQuickControlPrivate::updateBaselineOffset);
+         if (!item->parentItem())
+             item->setParentItem(q);
+         if (componentComplete)
+diff -uar Src/qtremoteobjects/src/remoteobjects/qconnectionfactories.cpp qt-5.12.0-Src/qtremoteobjects/src/remoteobjects/qconnectionfactories.cpp
+--- Src/qtremoteobjects/src/remoteobjects/qconnectionfactories.cpp	2018-11-26 23:11:22.000000000 -0500
++++ qt-5.12.0-Src/qtremoteobjects/src/remoteobjects/qconnectionfactories.cpp	2018-12-14 22:59:32.282748664 -0500
+@@ -231,8 +231,8 @@
+     , m_device(device)
+ {
+     initializeDataStream();
+-    connect(m_device, &QIODevice::aboutToClose, this, [this]() { this->m_isClosing = true; });
+-    connect(m_device, &QIODevice::readyRead, this, &ExternalIoDevice::readyRead);
++    connect(m_device.data(), &QIODevice::aboutToClose, this, [this]() { this->m_isClosing = true; });
++    connect(m_device.data(), &QIODevice::readyRead, this, &ExternalIoDevice::readyRead);
+     auto meta = device->metaObject();
+     if (-1 == meta->indexOfSignal(SIGNAL(disconnected())))
+         connect(m_device, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
+diff -uar Src/qtvirtualkeyboard/src/virtualkeyboard/qvirtualkeyboardselectionlistmodel.cpp qt-5.12.0-Src/qtvirtualkeyboard/src/virtualkeyboard/qvirtualkeyboardselectionlistmodel.cpp
+--- Src/qtvirtualkeyboard/src/virtualkeyboard/qvirtualkeyboardselectionlistmodel.cpp	2018-11-15 08:02:34.000000000 -0500
++++ qt-5.12.0-Src/qtvirtualkeyboard/src/virtualkeyboard/qvirtualkeyboardselectionlistmodel.cpp	2018-12-14 23:14:11.324371558 -0500
+@@ -1,6 +1,6 @@
+ /****************************************************************************
+ **
+-** Copyright (C) 2016 The Qt Company Ltd.
++** Copyright (C) 2016, 2018 The Qt Company Ltd.
+ ** Contact: https://www.qt.io/licensing/
+ **
+ ** This file is part of the Qt Virtual Keyboard module of the Qt Toolkit.
+@@ -178,8 +178,8 @@
+     }
+     d->dataSource = dataSource;
+     if (d->dataSource) {
+-        QObject::connect(d->dataSource, &QVirtualKeyboardAbstractInputMethod::selectionListChanged, this, &QVirtualKeyboardSelectionListModel::selectionListChanged);
+-        QObject::connect(d->dataSource, &QVirtualKeyboardAbstractInputMethod::selectionListActiveItemChanged, this, &QVirtualKeyboardSelectionListModel::selectionListActiveItemChanged);
++        QObject::connect(d->dataSource.data(), &QVirtualKeyboardAbstractInputMethod::selectionListChanged, this, &QVirtualKeyboardSelectionListModel::selectionListChanged);
++        QObject::connect(d->dataSource.data(), &QVirtualKeyboardAbstractInputMethod::selectionListActiveItemChanged, this, &QVirtualKeyboardSelectionListModel::selectionListActiveItemChanged);
+     }
+ }
+ 
