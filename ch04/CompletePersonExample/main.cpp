@@ -7,10 +7,10 @@ int main(int argc, char *argv[])
 {
     Person p;
     p.setProperty("name", "John");
-    p.setProperty("birthday", QDate(2000, 9, 24));    // September 24, 2000
+    p.setProperty("birthday", QDate(2000, 9, 24));  // September 24, 2000
     p.setProperty("sex", "male");
 
-    p.setProperty("haircolor", "brown");
+    p.setProperty("haircolor", "brown");            // add dynamic property, haircolor
 
     qDebug() << "--- Get via Properties ---";
     qDebug() << p.property("name") << " : " << p.property("birthday") << " : " << p.property("sex") << p.property("haircolor");
