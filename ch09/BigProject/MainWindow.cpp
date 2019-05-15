@@ -63,7 +63,7 @@ MainWindow::MainWindow(TemperatureSensorIF *tempSensor, QWidget *parent) :
             this, &MainWindow::updatedWeather);
 
     // ***** PUT YOUR OWN API KEY HERE *****
-    QString weatherAPI = "2851a63af02a907b41ed82ef99660c0d";
+    QString weatherAPI = "XYZZY";
 
     ui->locationLineEdit->setText("London, uk");
     ui->locationDisplay->setText("London, uk");
