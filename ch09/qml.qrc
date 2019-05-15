@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>TemperatureChart.qml</file>
+        <file>InputPanelArea.qml</file>
+    </qresource>
+</RCC>
