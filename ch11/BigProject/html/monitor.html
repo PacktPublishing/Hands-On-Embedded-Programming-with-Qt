@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+
+<html>
+   <head>
+      <script type = "text/javascript">
+         function WebSocketMonitor() {
+
+            if ("WebSocket" in window) {
+               // Create a Web Socket for messages
+               var ws = new WebSocket("ws://localhost:8091");
+
+               ws.onopen = function() {
+                  // Web Socket is connected, send data using send()
+               };
+
+               ws.onmessage = function (evt) {
+                  var received_msg = evt.data;
+                  alert(received_msg);
+               };
+
+               ws.onclose = function() {
+                  // websocket is closed.
+                  alert("Connection is closed...");
+               };
+            }
+         }
+      </script>
+   </head>
+   <body>
+      <div id = "sse">
+         <a href = "javascript:WebSocketMonitor()">Start Monitor</a>
+      </div>
+
+   </body>
+</html>

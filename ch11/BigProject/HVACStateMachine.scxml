@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" name="HVACStateMachine" qt:editorversion="4.8.0">
+    <state id="FanOff">
+        <qt:editorinfo geometry="69.78;185.69;-30.81;-50;169.07;197.86" stateColor="#edf7f2" scenegeometry="69.78;185.69;38.97;135.69;169.07;197.86"/>
+        <state id="Idle">
+            <qt:editorinfo geometry="58.26;58.27;-60;-50;120;100" stateColor="#c2e078" scenegeometry="128.04;243.96;68.04;193.96;120;100"/>
+            <transition type="external" event="TooCold" target="Heating">
+                <qt:editorinfo movePoint="7.18;0" endTargetFactors="6.89;51.84" startTargetFactors="54.50;10.96"/>
+            </transition>
+            <transition type="external" event="TooHot" target="Cooling">
+                <qt:editorinfo endTargetFactors="9.90;57.05" startTargetFactors="47.77;89.01"/>
+            </transition>
+        </state>
+    </state>
+    <state id="FanOn">
+        <qt:editorinfo geometry="531.59;552.52;-246.29;-519.18;345.66;384.14" stateColor="#c5bafc" scenegeometry="531.59;552.52;285.30;33.34;345.66;384.14"/>
+        <state id="Cooling">
+            <qt:editorinfo geometry="-137.30;-211.20;-60;-50;120;100" stateColor="#91e3d8" scenegeometry="394.29;341.32;334.29;291.32;120;100"/>
+            <transition type="external" event="TargetReached" target="Wait">
+                <qt:editorinfo movePoint="83.32;25.60" endTargetFactors="47.02;85.59"/>
+            </transition>
+        </state>
+        <state id="Wait">
+            <qt:editorinfo geometry="9.11;-310.95;-60;-50;120;100" stateColor="#dfd3b6" scenegeometry="540.70;241.57;480.70;191.57;120;100"/>
+            <transition type="external" event="DoneWaiting" target="Idle">
+                <qt:editorinfo movePoint="-2.05;6.16" endTargetFactors="89.51;52.77"/>
+            </transition>
+            <onentry>
+                <send event="DoneWaiting" delay="5s"/>
+            </onentry>
+        </state>
+        <state id="Heating">
+            <qt:editorinfo geometry="-146.54;-406.13;-60;-50;120;100" stateColor="#ffaf69" scenegeometry="385.05;146.39;325.05;96.39;120;100"/>
+            <transition type="external" event="TargetReached" target="Wait">
+                <qt:editorinfo movePoint="52.52;-1.05" endTargetFactors="38.65;13"/>
+            </transition>
+        </state>
+    </state>
+</scxml>

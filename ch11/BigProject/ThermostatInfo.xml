@@ -1,0 +1,35 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="com.packt.bigproject.thermostat">
+    <property name="fanOn" type="b" access="read"/>
+    <property name="heatingOn" type="b" access="read"/>
+    <property name="coolingOn" type="b" access="read"/>
+    <property name="currentTemp" type="d" access="read"/>
+    <property name="minTemp" type="d" access="read"/>
+    <property name="maxTemp" type="d" access="read"/>
+    <signal name="fanOnChanged">
+      <arg name="val" type="b" direction="out"/>
+    </signal>
+    <signal name="heatingOnChanged">
+      <arg name="val" type="b" direction="out"/>
+    </signal>
+    <signal name="coolingOnChanged">
+      <arg name="val" type="b" direction="out"/>
+    </signal>
+    <signal name="currentTempChanged">
+      <arg name="val" type="d" direction="out"/>
+    </signal>
+    <signal name="minTempChanged">
+      <arg name="val" type="d" direction="out"/>
+    </signal>
+    <signal name="maxTempChanged">
+      <arg name="val" type="d" direction="out"/>
+    </signal>
+    <method name="setMinTemp">
+      <arg name="minTemp" type="d" direction="in"/>
+    </method>
+    <method name="setMaxTemp">
+      <arg name="maxTemp" type="d" direction="in"/>
+    </method>
+  </interface>
+</node>
