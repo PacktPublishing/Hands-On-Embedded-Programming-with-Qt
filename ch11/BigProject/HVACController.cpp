@@ -39,13 +39,11 @@ QString HVACController::updateSMfromTemperature(float minTemp,
                 transition = "TooHot";
             }
         } else if (currentTemp < minTemp) {
-            if (activeStates.contains("Heating")) {
+            if (activeStates.contains("Cooling")) {
                 transition = "TargetReached";
             } else {
                 transition = "TooCold";
             }
-        } else {
-            transition = "TargetReached";
         }
     }
     return transition;

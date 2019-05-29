@@ -37,12 +37,12 @@ private slots:
         QTest::newRow("Idle-High")    << QStringList({"FanOff", "Idle"}) << 10.0f << 15.0f << 20.0f << QString("TooHot");
         QTest::newRow("Idle-Low")     << QStringList({"FanOff", "Idle"}) << 10.0f << 15.0f <<  5.0f << QString("TooCold");
 
-        QTest::newRow("Heating-Between") << QStringList({"FanOn" , "Heating"}) << 10.0f << 15.0f << 12.5f << QString("TargetReached");
+        QTest::newRow("Heating-Between") << QStringList({"FanOn" , "Heating"}) << 10.0f << 15.0f << 12.5f << QString("none");
         QTest::newRow("Heating-High")    << QStringList({"FanOn" , "Heating"}) << 10.0f << 15.0f << 20.0f << QString("TargetReached");
-        QTest::newRow("Heating-Low")     << QStringList({"FanOn" , "Heating"}) << 10.0f << 15.0f <<  5.0f << QString("none");
+        QTest::newRow("Heating-Low")     << QStringList({"FanOn" , "Heating"}) << 10.0f << 15.0f <<  5.0f << QString("TooCold");
 
-        QTest::newRow("Cooling-Between") << QStringList({"FanOn" , "Cooling"}) << 10.0f << 15.0f << 12.5f << QString("TargetReached");
-        QTest::newRow("Cooling-High")    << QStringList({"FanOn" , "Cooling"}) << 10.0f << 15.0f << 20.0f << QString("none");
+        QTest::newRow("Cooling-Between") << QStringList({"FanOn" , "Cooling"}) << 10.0f << 15.0f << 12.5f << QString("none");
+        QTest::newRow("Cooling-High")    << QStringList({"FanOn" , "Cooling"}) << 10.0f << 15.0f << 20.0f << QString("TooHot");
         QTest::newRow("Cooling-Low")     << QStringList({"FanOn" , "Cooling"}) << 10.0f << 15.0f <<  5.0f << QString("TargetReached");
     }
 

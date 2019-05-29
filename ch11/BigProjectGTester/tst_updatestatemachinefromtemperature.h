@@ -46,12 +46,12 @@ smftData    fullCoverage[] = {
     {QString("Idle-High")      , QStringList({"FanOff", "Idle"}) , 10.0f , 15.0f , 20.0f , QString("TooHot")},
     {QString("Idle-Low")       , QStringList({"FanOff", "Idle"}) , 10.0f , 15.0f ,  5.0f , QString("TooCold")},
 
-    {QString("Heating-Between"), QStringList({"FanOn" , "Heating"}) , 10.0f , 15.0f , 12.5f , QString("TargetReached")},
+    {QString("Heating-Between"), QStringList({"FanOn" , "Heating"}) , 10.0f , 15.0f , 12.5f , QString("none")},
     {QString("Heating-High")   , QStringList({"FanOn" , "Heating"}) , 10.0f , 15.0f , 20.0f , QString("TargetReached")},
-    {QString("Heating-Low")    , QStringList({"FanOn" , "Heating"}) , 10.0f , 15.0f ,  5.0f , QString("none")},
+    {QString("Heating-Low")    , QStringList({"FanOn" , "Heating"}) , 10.0f , 15.0f ,  5.0f , QString("TooCold")},
 
-    {QString("Cooling-Between"), QStringList({"FanOn" , "Cooling"}) , 10.0f , 15.0f , 12.5f , QString("TargetReached")},
-    {QString("Cooling-High")   , QStringList({"FanOn" , "Cooling"}) , 10.0f , 15.0f , 20.0f , QString("none")},
+    {QString("Cooling-Between"), QStringList({"FanOn" , "Cooling"}) , 10.0f , 15.0f , 12.5f , QString("none")},
+    {QString("Cooling-High")   , QStringList({"FanOn" , "Cooling"}) , 10.0f , 15.0f , 20.0f , QString("TooHot")},
     {QString("Cooling-Low")    , QStringList({"FanOn" , "Cooling"}) , 10.0f , 15.0f ,  5.0f , QString("TargetReached")}
 };
 

@@ -29,13 +29,16 @@ MainWindow::MainWindow(TemperatureSensorIF *tempSensor, QWidget *parent) :
 
     ui->setupUi(this);
 
+    // get our settings area
+    m_settings = new QSettings(this);
+
     // make sure indicators are off
     ui->heatingInd->setEnabled(false);
     ui->coolingInd->setEnabled(false);
     ui->fanInd->setEnabled(false);
 
     // setup the HVAC Control (and display)
-    m_hvacSM.moveToThread(new QThread);
+    m_hvacSM.moveToThread(new QThread(this));
 
     m_hvacSM.connectToState("Heating", ui->heatingInd, &QLabel::setEnabled);
     m_hvacSM.connectToState("Cooling", ui->coolingInd, &QLabel::setEnabled);
@@ -105,7 +108,6 @@ MainWindow::MainWindow(TemperatureSensorIF *tempSensor, QWidget *parent) :
     m_hvacSM.connectToState("FanOn",   m_thermoAdaptor, &ThermostatAdaptor::fanOnChanged);
 
     // ** load settings **
-    m_settings = new QSettings();
 
     // - thermostat
     ui->minTemperatureSpinBox->setValue(m_settings->value("thermostat/min", 20).toInt());
@@ -155,6 +157,10 @@ MainWindow::MainWindow(TemperatureSensorIF *tempSensor, QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    m_hvacSM.stop();
+    m_tempStorage->CloseStorage();
+    delete m_tempStorage;
+
     delete ui;
 }
 
@@ -171,9 +177,9 @@ void MainWindow::updateTempDisplay(QDateTime timestamp, float temperature)
     ui->tempDisplay->setText(QString("%1 C").arg(temperature));
 
     // update the state machine for the hvac controll
-    auto transition = HVACController::updateSMfromTemperature(temperature,
-                                                              ui->minTemperatureSpinBox->value(),
+    auto transition = HVACController::updateSMfromTemperature(ui->minTemperatureSpinBox->value(),
                                                               ui->maxTemperatureSpinBox->value(),
+                                                              temperature,
                                                               m_hvacSM.activeStateNames());
     m_hvacSM.submitEvent(transition);
 
