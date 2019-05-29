@@ -20,6 +20,8 @@ ui(new Ui::MainWindow)
     ui->progressBar->setValue(0);
 
     ui->loopCount->setValue(2000);
+
+    this->setWindowTitle("QThread Example");
 }
 
 MainWindow::~MainWindow()

@@ -23,6 +23,8 @@ ui(new Ui::MainWindow)
     ui->threadCount->setValue(100);
     ui->poolSize->setValue(20);
 
+    this->setWindowTitle("QThreadPool/QRunnable Example");
+
     m_threadPool = new  QThreadPool(this);
 }
 
