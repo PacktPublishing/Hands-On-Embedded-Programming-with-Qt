@@ -3,7 +3,7 @@ isEmpty(GOOGLETEST_DIR):GOOGLETEST_DIR=$$(GOOGLETEST_DIR)
 isEmpty(GOOGLETEST_DIR) {
     warning("Using googletest src dir specified at Qt Creator wizard")
     message("set GOOGLETEST_DIR as environment variable or qmake variable to get rid of this message")
-    GOOGLETEST_DIR = /home/jwerner/raspi/googletest-release-1.8.1
+    GOOGLETEST_DIR = ~/raspi/googletest-release-1.8.1
 }
 
 !isEmpty(GOOGLETEST_DIR): {
