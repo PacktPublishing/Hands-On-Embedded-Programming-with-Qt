@@ -32,8 +32,8 @@ double ThermostatInfo::minTemp() const
 
 void ThermostatInfo::setMinTemp(double minTemp)
 {
-    emit minTempChanged(minTemp);
     m_minTemp = minTemp;
+    emit minTempChanged(minTemp);
 }
 
 double ThermostatInfo::maxTemp() const
@@ -43,6 +43,6 @@ double ThermostatInfo::maxTemp() const
 
 void ThermostatInfo::setMaxTemp(double maxTemp)
 {
-    emit maxTempChanged(maxTemp);
     m_maxTemp = maxTemp;
+    emit maxTempChanged(maxTemp);
 }
