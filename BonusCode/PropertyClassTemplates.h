@@ -1,6 +1,15 @@
 #ifndef PROPERTYCLASSTEMPLATES_H
 #define PROPERTYCLASSTEMPLATES_H
 
+/**
+ * This code is released AS-IS. Bugs and other issues may exist.  The fitness
+ * of this code for use is not assured.
+ * 
+ * In other words: You are responsible for ensuring the code works properly in
+ * your project.
+ * 
+ **/
+
 #include <type_traits>
 #include <QObject>
 #include <QList>
@@ -794,29 +803,6 @@ template <class T> QVariant::Type __GetPropertyType(T &object, const char *name,
 template <class T> QVariant::Type __GetPropertyType(T &object, const char *name)
 {
     return __GetPropertyType(object, name, typename std::is_base_of<QObject, T>::type());
-}
-
-template <class T> void toJson(const T &object, QJsonObject *json)
-{
-    QJsonObject innerJson;
-    for (auto pname : __GetPropNames(object))
-    {
-        auto prop = __GetProperty(object, pname);
-        innerJson.insert(pname, QJsonValue(prop.toString()));
-    }
-
-    json->insert(T::staticMetaObject.className(), innerJson);
-}
-
-
-template <class T> void fromJson(T *object, const QJsonObject &json)
-{
-    qDebug() << "-" << T::staticMetaObject.className() << "-";
-    for (const auto &key : json.keys())
-    {
-        __SetProperty(*object, key.toLatin1(), json.value(key).toVariant());
-        qDebug() << key << "=" << json.value(key);
-    }
 }
 
 #endif // PROPERTYCLASSTEMPLATES_H
