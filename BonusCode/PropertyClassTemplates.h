@@ -2,15 +2,18 @@
 #define PROPERTYCLASSTEMPLATES_H
 
 /**
- * This code is released AS-IS. Bugs and other issues may exist.  The fitness
- * of this code for use is not assured.
+ * This code is released AS-IS. Bugs and other issues may exist.  The
+ * fitness of this code for use is not assured. No warranty is made
+ * for fitness of the code for any function. By using this code, you
+ * assume all responsibility for testing, debugging, and verification.
  * 
- * In other words: You are responsible for ensuring the code works properly in
- * your project.
+ * In other words: You are responsible for ensuring the code works
+ * properly in your project.
  * 
  **/
 
 #include <type_traits>
+#include <math.h>
 #include <QObject>
 #include <QList>
 #include <QByteArray>
@@ -22,6 +25,7 @@
 #include <QStringList>
 #include <QDebug>
 #include <QJsonObject>
+#include <QDataStream>
 
 /**
  * @def PROPERTY(Type, Name)
