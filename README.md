@@ -11,12 +11,12 @@ Qt is an open source toolkit suitable for cross-platform and embedded applicatio
 
 
 This book covers the following exciting features:
-Understand how to develop Qt applications using Qt Creator on Linux 
-Explore various Qt GUI technologies to build resourceful and interactive applications 
-Understand Qt’s threading model to maintain a responsive UI 
-Get to grips with remote target load and debug using Qt Creator 
-Become adept at writing IoT code using Qt 
-Learn a variety of software best practices to ensure that your code is efficient
+* Understand how to develop Qt applications using Qt Creator on Linux 
+* Explore various Qt GUI technologies to build resourceful and interactive applications 
+* Understand Qt’s threading model to maintain a responsive UI 
+* Get to grips with remote target load and debug using Qt Creator 
+* Become adept at writing IoT code using Qt 
+* Learn a variety of software best practices to ensure that your code is efficient
 
 If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1789952069) today!
 
