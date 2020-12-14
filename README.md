@@ -1,3 +1,8 @@
+## $5 Tech Unlocked 2021!
+[Buy and download this Book for only $5 on PacktPub.com](https://www.packtpub.com/product/hands-on-embedded-programming-with-qt/9781789952063)
+-----
+*If you have read this book, please leave a review on [Amazon.com](https://www.amazon.com/gp/product/1789952069).     Potential readers can then use your unbiased opinion to help them make purchase decisions. Thank you. The $5 campaign         runs from __December 15th 2020__ to __January 13th 2021.__*
+
 # Hands-On Embedded Programming with Qt 
 
 <a href="https://www.packtpub.com/in/application-development/hands-embedded-programming-qt?utm_source=github&utm_medium=repository&utm_campaign=9781789952063"><img src="https://www.packtpub.com/media/catalog/product/cache/e4d64343b1bc593f1c5348fe05efa4a6/9/7/9781789952063-original.jpeg" alt="Hands-On Embedded Programming with Qt " height="256px" align="right"></a>
